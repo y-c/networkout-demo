@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networkout - Pitch Deck</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+        }
+        
+        .presentation {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+        }
+        
+        .slide {
+            width: 100%;
+            height: 100%;
+            padding: 60px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        .slide h1 {
+            font-size: 3rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .slide h2 {
+            font-size: 2.5rem;
+            color: #3182ce;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .slide h3 {
+            font-size: 1.8rem;
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            color: #718096;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-style: italic;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+        
+        .column {
+            padding: 2rem;
+            background: #f7fafc;
+            border-radius: 15px;
+            border-left: 6px solid #3182ce;
+        }
+        
+        .column.china {
+            border-left-color: #e53e3e;
+        }
+        
+        .column.us {
+            border-left-color: #3182ce;
+        }
+        
+        .bullet {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+            color: #2d3748;
+        }
+        
+        .highlight {
+            background: linear-gradient(120deg, #ffd89b 0%, #19547b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .demo-section {
+            background: #f0fff4;
+            border: 3px solid #38a169;
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        
+        .demo-title {
+            color: #38a169;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .workflow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .workflow-step {
+            background: white;
+            border: 2px solid #3182ce;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 0.5rem;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: #3182ce;
+            margin: 0 1rem;
+        }
+        
+        .competitive-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            width: 100%;
+            max-width: 1000px;
+            margin: 2rem 0;
+        }
+        
+        .competitor {
+            background: #fff5f5;
+            border: 2px solid #e53e3e;
+            border-radius: 15px;
+            padding: 2rem;
+        }
+        
+        .our-advantage {
+            background: #f0fff4;
+            border: 2px solid #38a169;
+            border-radius: 15px;
+            padding: 2rem;
+            grid-column: 1 / -1;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            padding: 10px 20px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(49, 130, 206, 0.4);
+        }
+        
+        .nav-btn:hover {
+            background: #2c5282;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(49, 130, 206, 0.6);
+        }
+        
+        .slide-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            z-index: 1000;
+        }
+        
+        .emoji {
+            font-size: 1.5em;
+            margin-right: 0.5rem;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 4rem;
+            border-radius: 25px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation">
+        <div class="slide-counter">
+            <span id="current-slide">1</span> / <span id="total-slides">10</span>
+        </div>
+        
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>🏋️ Networkout</h1>
+            <p class="subtitle">AI-Powered Cross-Cultural Fitness Networking</p>
+            <div class="demo-section">
+                <p style="font-size: 1.3rem; margin-bottom: 1rem;">Connecting Chinese professionals with US student trainers</p>
+                <p style="font-size: 1.1rem;">through culturally-intelligent AI agents</p>
+            </div>
+            <div class="cta">Hackathon Demo: Agentic Workflows Track</div>
+        </div>
+        
+        <!-- Slide 2: Problem -->
+        <div class="slide">
+            <h2>🎯 The Perfect Market Mismatch</h2>
+            <div class="two-column">
+                <div class="column china">
+                    <h3><span class="emoji">🇨🇳</span>China: Massive Demand</h3>
+                    <div class="bullet">📈 <span class="highlight">$28.4B fitness market</span> growing 9.17% annually</div>
+                    <div class="bullet">🏢 <span class="highlight">Educated urban professionals</span> in tier-1 cities</div>
+                    <div class="bullet">💰 <span class="highlight">High disposable income</span> + English learning aspirations</div>
+                    <div class="bullet">❌ <span class="highlight">Quality trainer shortage</span> - most are sales-focused</div>
+                </div>
+                <div class="column us">
+                    <h3><span class="emoji">🇺🇸</span>US: Untapped Supply</h3>
+                    <div class="bullet">🎓 <span class="highlight">Millions of college students</span> with fitness knowledge</div>
+                    <div class="bullet">💵 <span class="highlight">Need flexible income</span> to pay bills</div>
+                    <div class="bullet">🕐 <span class="highlight">Available during Chinese evening</span> hours</div>
+                    <div class="bullet">🔓 <span class="highlight">Undermonetized expertise</span> in fitness & sports science</div>
+                </div>
+            </div>
+            <div class="cta">💡 No platform connects these markets with cultural intelligence</div>
+        </div>
+        
+        <!-- Slide 3: Market Timing -->
+        <div class="slide">
+            <h2>⏰ Why Now? Perfect Market Timing</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">200M+</div>
+                    <div class="stat-label">Keep app users in China</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">77%</div>
+                    <div class="stat-label">Users under 35 seeking guidance</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20M+</div>
+                    <div class="stat-label">US college students available</div>
+                </div>
+            </div>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <h3>🦠 Post-COVID</h3>
+                    <p>Virtual fitness normalized globally</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>🤖 AI Maturity</h3>
+                    <p>Cultural adaptation now possible</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>🌏 Global Remote</h3>
+                    <p>Cross-border connections accepted</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Solution -->
+        <div class="slide">
+            <h2>🤖 Our Solution: Cultural AI Bridge</h2>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <h3>🔍 Intake Agent</h3>
+                    <p>Analyzes Chinese cultural context, apartment living, English level</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>🎯 Matching Agent</h3>
+                    <p>Connects with compatible US students using 6 compatibility criteria</p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>💪 Planning Agent</h3>
+                    <p>Creates culturally-adapted workouts + English learning integration</p>
+                </div>
+            </div>
+            <div class="cta">⚡ Result: Perfect Cultural Fit + Quality Training + Language Learning</div>
+        </div>
+        
+        <!-- Slide 5: Live Demo -->
+        <div class="slide">
+            <h2>🎬 Live Demo - See It Working</h2>
+            <div class="demo-section">
+                <div class="demo-title">Real-Time AI Agent Demonstration</div>
+                <p style="font-size: 1.2rem; margin: 1rem 0;"><strong>Input:</strong> "我想减肥，但是我的英语不好，我住在上海的小公寓里。"</p>
+                <div class="workflow">
+                    <div class="workflow-step">
+                        <h3>🔍 Intake</h3>
+                        <p>Extracts: Weight loss goals, beginner English, apartment constraints</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="workflow-step">
+                        <h3>🎯 Matching</h3>
+                        <p>Finds: Sarah (US student, Mandarin basics, apartment specialist)</p>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="workflow-step">
+                        <h3>💪 Planning</h3>
+                        <p>Creates: Quiet apartment routine + English vocabulary</p>
+                    </div>
+                </div>
+                <div style="background: #e6fffa; padding: 1rem; border-radius: 10px; margin-top: 2rem;">
+                    <strong>⚡ This is fully autonomous - no human intervention needed!</strong>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Competitive Advantage -->
+        <div class="slide">
+            <h2>🏆 Our Competitive Moat</h2>
+            <div class="competitive-grid">
+                <div class="competitor">
+                    <h3>❌ Local Chinese Apps</h3>
+                    <p>✅ Large user base<br>❌ No international trainers<br>❌ No English learning</p>
+                </div>
+                <div class="competitor">
+                    <h3>❌ Global Platforms</h3>
+                    <p>✅ International reach<br>❌ No cultural understanding<br>❌ No language integration</p>
+                </div>
+                <div class="our-advantage">
+                    <h3>✅ Our Unique Advantage: Cultural Intelligence</h3>
+                    <div class="bullet">🧠 <strong>First platform</strong> with deep Chinese cultural understanding</div>
+                    <div class="bullet">🤖 <strong>Autonomous cultural adaptation</strong> - apartment workouts, social preferences</div>
+                    <div class="bullet">🗣️ <strong>Integrated English learning</strong> - fitness becomes language practice</div>
+                    <div class="bullet">🌏 <strong>Cross-timezone optimization</strong> - US evening = China morning</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Market Opportunity -->
+        <div class="slide">
+            <h2>💰 Massive Market Opportunity</h2>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number">50M+</div>
+                    <div class="stat-label">Chinese urban professionals</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">$100B+</div>
+                    <div class="stat-label">Total addressable market</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20M+</div>
+                    <div class="stat-label">US college students available</div>
+                </div>
+            </div>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <h3>Year 1</h3>
+                    <p>10K matches<br><strong>$5M revenue</strong></p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>Year 3</h3>
+                    <p>100K matches<br><strong>$50M revenue</strong></p>
+                </div>
+                <div class="arrow">→</div>
+                <div class="workflow-step">
+                    <h3>Year 5</h3>
+                    <p>1M matches<br><strong>$500M revenue</strong></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 8: What We Built & Next Steps -->
+        <div class="slide">
+            <h2>🏆 What We Built in 5 Hours</h2>
+            <div class="competitive-grid">
+                <div class="our-advantage">
+                    <h3>✅ Hackathon Achievement</h3>
+                    <div class="bullet">🤖 <strong>3 Autonomous AI agents</strong> - fully functional workflow</div>
+                    <div class="bullet">🧠 <strong>Cultural intelligence</strong> - real Chinese input processing</div>
+                    <div class="bullet">🎨 <strong>Professional UI</strong> - production-ready interface</div>
+                    <div class="bullet">⚡ <strong>Live demo ready</strong> - show don't tell</div>
+                </div>
+            </div>
+            <div class="cta">
+                💡 We're creating the first AI system that turns cultural differences into cultural bridges
+            </div>
+            <div style="text-align: center; margin-top: 2rem; font-size: 1.5rem;">
+                <strong>🎬 Questions? Let's see it in action!</strong>
+            </div>
+        </div>
+        
+        <div class="navigation">
+            <button class="nav-btn" onclick="previousSlide()">← Previous</button>
+            <button class="nav-btn" onclick="nextSlide()">Next →</button>
+        </div>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = 8;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                previousSlide();
+            }
+        });
+        
+        // Click navigation
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.nav-btn')) return;
+            const rect = document.body.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const width = rect.width;
+            
+            if (x > width / 2) {
+                nextSlide();
+            } else {
+                previousSlide();
+            }
+        });
+    </script>
+</body>
+</html>
