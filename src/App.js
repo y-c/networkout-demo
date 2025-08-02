@@ -20,8 +20,40 @@ function App() {
   };
 
   const processWithAgents = async (inputData) => {
-    // We'll implement this with our agents
     console.log('Processing with agents:', inputData);
+    
+    try {
+      // Step 1: Intake Agent
+      console.log('Setting intake status to analyzing...');
+      setAgentResults(prev => ({
+        ...prev,
+        intake: { status: 'analyzing' }
+      }));
+      
+      const { processIntakeAgent } = await import('./agents/intake-agent');
+      console.log('Calling intake agent...');
+      const intakeResult = await processIntakeAgent(inputData);
+      console.log('Intake result received:', intakeResult);
+      
+      setUserProfile(intakeResult);
+      setAgentResults(prev => {
+        const newResults = {
+          ...prev,
+          intake: {
+            status: 'complete',
+            ...intakeResult
+          }
+        };
+        console.log('Setting new agent results:', newResults);
+        return newResults;
+      });
+      
+      console.log('Intake complete:', intakeResult);
+      
+    } catch (error) {
+      console.error('Agent processing failed:', error);
+      setCurrentStep('input');
+    }
   };
 
   return (
@@ -66,9 +98,9 @@ function App() {
               
               <AgentDisplay 
                 agentName="Intake Agent"
-                status={currentStep === 'processing' ? 'analyzing' : 'waiting'}
+                status={agentResults.intake?.status || 'waiting'}
                 description="Analyzing your profile and extracting key requirements"
-                result={agentResults.intake}
+                result={agentResults.intake?.status === 'complete' ? agentResults.intake : null}
               />
               
               <AgentDisplay 
