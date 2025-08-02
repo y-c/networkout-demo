@@ -18,13 +18,13 @@ const Results = ({ results }) => {
     );
   }
 
-  const trainer = matching.recommendedTrainer;
-  const workoutPlan = planning.workoutPlan;
+  const trainer = matching?.recommendedTrainer;
+  const workoutPlan = planning?.workoutPlan;
 
   return (
     <div className="space-y-6">
       {/* Matched Trainer */}
-      {trainer && (
+      {trainer && trainer.personal && (
         <div className="fade-in">
           <h3 className="font-semibold text-gray-900 mb-3 flex items-center space-x-2">
             <Star className="h-4 w-4 text-yellow-500" />
@@ -35,33 +35,33 @@ const Results = ({ results }) => {
             <div className="flex items-start space-x-3">
               <div className="bg-primary-100 p-3 rounded-full">
                 <span className="text-lg font-bold text-primary-600">
-                  {trainer.name.charAt(0)}
+                  {trainer.personal.name ? trainer.personal.name.charAt(0) : '?'}
                 </span>
               </div>
               
               <div className="flex-1">
-                <h4 className="font-semibold text-gray-900">{trainer.name}</h4>
-                <p className="text-sm text-gray-600">{trainer.location}</p>
+                <h4 className="font-semibold text-gray-900">{trainer.personal.name || 'Trainer'}</h4>
+                <p className="text-sm text-gray-600">{trainer.personal.location || 'Location not specified'}</p>
                 
                 <div className="flex items-center space-x-4 mt-2 text-xs text-gray-500">
                   <div className="flex items-center space-x-1">
                     <Star className="h-3 w-3 text-yellow-500" />
-                    <span>{trainer.rating}</span>
+                    <span>{trainer.ratings?.overall || 'N/A'}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Globe className="h-3 w-3" />
-                    <span>{trainer.languages.join(', ')}</span>
+                    <span>{trainer.personal.languages ? trainer.personal.languages.join(', ') : 'English'}</span>
                   </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="h-3 w-3" />
-                    <span>{trainer.timezone}</span>
+                    <span>{trainer.personal.timezone || 'Flexible'}</span>
                   </div>
                 </div>
                 
                 <div className="mt-3">
                   <p className="text-xs text-gray-600 mb-2">Specialties:</p>
                   <div className="flex flex-wrap gap-1">
-                    {trainer.specialties.map((specialty, index) => (
+                    {(trainer.expertise?.specialties || ['General Fitness']).map((specialty, index) => (
                       <span
                         key={index}
                         className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full"
@@ -96,29 +96,39 @@ const Results = ({ results }) => {
             <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
               <div>
                 <span className="text-gray-500">Duration:</span>
-                <p className="font-medium">{workoutPlan.duration}</p>
+                <p className="font-medium">{workoutPlan.overview?.duration || workoutPlan.duration}</p>
               </div>
               <div>
                 <span className="text-gray-500">Frequency:</span>
-                <p className="font-medium">{workoutPlan.frequency}</p>
+                <p className="font-medium">{workoutPlan.overview?.frequency || workoutPlan.frequency}</p>
               </div>
             </div>
             
-            {workoutPlan.sampleExercises && (
+            {workoutPlan.exercises && (
               <div className="mb-4">
                 <p className="text-xs font-medium text-gray-700 mb-2">Sample Exercises:</p>
                 <div className="space-y-2">
-                  {workoutPlan.sampleExercises.slice(0, 3).map((exercise, index) => (
-                    <div key={index} className="flex justify-between items-center text-xs">
-                      <span className="text-gray-900">
-                        {exercise.name}
+                  {workoutPlan.exercises.slice(0, 3).map((exercise, index) => (
+                    <div key={index} className="flex justify-between items-start text-xs">
+                      <div className="flex-1">
+                        <span className="text-gray-900 font-medium">
+                          {exercise.name}
+                        </span>
                         {exercise.chinese_name && (
-                          <span className="text-gray-500 ml-1">({exercise.chinese_name})</span>
+                          <span className="text-gray-500 ml-1 block">({exercise.chinese_name})</span>
                         )}
-                      </span>
-                      <span className="text-gray-600">{exercise.reps}</span>
+                        {exercise.cultural_notes && (
+                          <span className="text-blue-600 text-xs block mt-1">{exercise.cultural_notes}</span>
+                        )}
+                      </div>
+                      <span className="text-gray-600 ml-2">{exercise.reps}</span>
                     </div>
                   ))}
+                  {workoutPlan.exercises.length > 3 && (
+                    <div className="text-xs text-gray-500 text-center">
+                      +{workoutPlan.exercises.length - 3} more exercises
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -141,7 +151,7 @@ const Results = ({ results }) => {
       )}
 
       {/* Next Steps */}
-      {trainer && workoutPlan && (
+      {trainer && trainer.personal && workoutPlan && (
         <div className="fade-in">
           <div className="bg-gradient-to-r from-primary-50 to-blue-50 rounded-lg p-4 border border-primary-200">
             <h4 className="font-semibold text-primary-900 mb-2 flex items-center space-x-2">
@@ -152,7 +162,7 @@ const Results = ({ results }) => {
               Your AI-matched trainer and culturally-adapted workout plan are ready!
             </p>
             <button className="w-full bg-primary-500 text-white py-2 px-4 rounded-md text-sm font-medium hover:bg-primary-600 transition-colors">
-              Connect with {trainer.name}
+              Connect with {trainer.personal.name || 'Your Trainer'}
             </button>
           </div>
         </div>

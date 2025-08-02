@@ -48,7 +48,49 @@ function App() {
         return newResults;
       });
       
-      console.log('Intake complete:', intakeResult);
+      console.log('Intake complete, starting matchmaking...');
+      
+      // Step 2: Matchmaking Agent
+      setAgentResults(prev => ({
+        ...prev,
+        matching: { status: 'analyzing' }
+      }));
+      
+      const { processMatchmakingAgent } = await import('./agents/matchmaking-agent');
+      console.log('Calling matchmaking agent...');
+      const matchingResult = await processMatchmakingAgent(intakeResult);
+      console.log('Matching result received:', matchingResult);
+      
+      setAgentResults(prev => ({
+        ...prev,
+        matching: {
+          status: 'complete',
+          ...matchingResult
+        }
+      }));
+      
+      console.log('Matchmaking complete, starting workout planning...');
+      
+      // Step 3: Workout Planning Agent
+      setAgentResults(prev => ({
+        ...prev,
+        planning: { status: 'analyzing' }
+      }));
+      
+      const { processWorkoutPlanningAgent } = await import('./agents/workout-planning-agent');
+      console.log('Calling workout planning agent...');
+      const planningResult = await processWorkoutPlanningAgent(intakeResult, matchingResult);
+      console.log('Planning result received:', planningResult);
+      
+      setAgentResults(prev => ({
+        ...prev,
+        planning: {
+          status: 'complete',
+          ...planningResult
+        }
+      }));
+      
+      console.log('All agents complete!', planningResult);
       
     } catch (error) {
       console.error('Agent processing failed:', error);
@@ -105,16 +147,16 @@ function App() {
               
               <AgentDisplay 
                 agentName="Matchmaking Agent"
-                status="waiting"
+                status={agentResults.matching?.status || 'waiting'}
                 description="Finding compatible trainers with cultural awareness"
-                result={agentResults.matching}
+                result={agentResults.matching?.status === 'complete' ? agentResults.matching : null}
               />
               
               <AgentDisplay 
                 agentName="Workout Planning Agent"
-                status="waiting"
+                status={agentResults.planning?.status || 'waiting'}
                 description="Creating culturally-adapted workout plans"
-                result={agentResults.planning}
+                result={agentResults.planning?.status === 'complete' ? agentResults.planning : null}
               />
             </div>
           </div>
