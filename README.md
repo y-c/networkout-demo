@@ -1,4 +1,7 @@
-# 🏋️ NetworkOut: AI-Powered Cross-Cultural Fitness Networking
+# 🏋️ Networkout: AI-Powered Cross-Cultural Fitness Networking
+
+## 🚀 Live Demo
+**[Try Networkout Live →](https://networkout-demo.vercel.app/)**
 
 ## 🎯 The Perfect Market Mismatch
 
@@ -34,19 +37,48 @@ We built an AI-powered platform with three autonomous agents that work together:
 - Accommodates dietary restrictions (halal, vegetarian, etc.)
 - Provides bilingual instructions when needed
 
-## 🚀 Demo
-[Live Demo Link] | [Video Walkthrough]
+## 🎬 Quick Demo Setup
 
-## 🏆 Why NetworkOut Wins
+### Option 1: View Live Demo
+Visit our deployed demo at **[https://your-vercel-url.vercel.app](https://your-vercel-url.vercel.app)**
+
+### Option 2: Run Locally
+```bash
+# Clone the repo
+git clone https://github.com/y-c/networkout-demo
+cd networkout-demo
+
+# Install dependencies
+npm install
+
+# Add your OpenAI API key to .env
+echo "REACT_APP_OPENAI_API_KEY=your_key_here" > .env
+
+# Start the demo
+npm start
+```
+
+### Option 3: Deploy Your Own
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy to Vercel (free)
+vercel
+
+# Follow the prompts - your demo will be live in ~2 minutes!
+```
+
+## 🏆 Why Networkout Wins
 ✅ **Autonomous Decision Making** - Agents operate independently with transparent reasoning  
 ✅ **Cultural Bridge** - First platform designed for cross-cultural fitness  
 ✅ **Scalable Architecture** - Can expand to any cultural pairing  
 ✅ **Real Problem** - Validated need in both markets  
 
-## 🛠️ Technical Implementation
+## 🛠️ Technical Details
 - Built in 5 hours using React, Node.js, and OpenAI GPT-4
 - Autonomous agent architecture with visible reasoning
-- [View Technical Documentation](public/TECHNICAL_README.md)
+- **[View Full Technical Documentation →](public/TECHNICAL_README.md)**
 
 ---
 *Built for Agentic Workflows Track - Autonomous agents that think, act, and execute*
