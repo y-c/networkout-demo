@@ -105,12 +105,26 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div className="gradient-primary p-3 rounded-xl shadow-lg">
-                <Dumbbell className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold heading-gradient">Networkout</h1>
-                <p className="text-sm text-gray-600 font-medium">AI-Powered Cross-Cultural Fitness Networking</p>
+              {/* Logo */}
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg relative">
+                  {/* Letter N with dumbbell diagonal */}
+                  <div className="relative w-8 h-8">
+                    {/* Left vertical stroke */}
+                    <div className="absolute left-0 top-0 w-1 h-8 bg-white rounded"></div>
+                    {/* Right vertical stroke */}
+                    <div className="absolute right-0 top-0 w-1 h-8 bg-white rounded"></div>
+                    {/* Dumbbell diagonal - bar */}
+                    <div className="absolute top-1/2 left-1/2 w-6 h-0.5 bg-white rounded transform -translate-x-1/2 -translate-y-1/2 rotate-45"></div>
+                    {/* Dumbbell weights - positioned at ends of the diagonal bar */}
+                    <div className="absolute left-1 top-1 w-2 h-2 bg-white rounded-full"></div>
+                    <div className="absolute right-1 bottom-1 w-2 h-2 bg-white rounded-full"></div>
+                  </div>
+                </div>
+                <div>
+                  <h1 className="logo-text">Networkout</h1>
+                  <p className="text-sm text-gray-600 font-medium">AI-Powered Cross-Cultural Fitness</p>
+                </div>
               </div>
             </div>
             
@@ -201,9 +215,16 @@ function App() {
       {/* Footer */}
       <footer className="bg-white border-t border-gray-200 mt-16">
         <div className="max-w-7xl mx-auto px-4 py-8 text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <div className="gradient-primary p-2 rounded-lg">
-              <Brain className="h-5 w-5 text-white" />
+          <div className="flex items-center justify-center space-x-3 mb-4">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center relative">
+              {/* Small N with dumbbell diagonal */}
+              <div className="relative w-5 h-5">
+                <div className="absolute left-0 top-0 w-0.5 h-5 bg-white rounded"></div>
+                <div className="absolute right-0 top-0 w-0.5 h-5 bg-white rounded"></div>
+                <div className="absolute top-1/2 left-1/2 w-4 h-0.5 bg-white rounded transform -translate-x-1/2 -translate-y-1/2 rotate-45"></div>
+                <div className="absolute left-0.5 top-0.5 w-1 h-1 bg-white rounded-full"></div>
+                <div className="absolute right-0.5 bottom-0.5 w-1 h-1 bg-white rounded-full"></div>
+              </div>
             </div>
             <p className="text-lg font-semibold text-gray-700">Hackathon Demo: Agentic Workflows Track</p>
           </div>
