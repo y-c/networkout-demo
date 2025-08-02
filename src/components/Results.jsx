@@ -4,16 +4,33 @@ import { Star, Globe, Clock, Dumbbell, MessageCircle } from 'lucide-react';
 const Results = ({ results }) => {
   const { matching, planning } = results;
 
-  // Show placeholder when no results yet
-  if (!matching || !planning) {
+  // Show placeholder until ALL agents are complete
+  if (!matching?.status === 'complete' || !planning?.status === 'complete') {
     return (
       <div className="text-center py-8">
         <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
           <Dumbbell className="h-8 w-8 text-gray-400" />
         </div>
-        <p className="text-gray-500 text-sm">
-          Your personalized trainer match and workout plan will appear here after our AI agents complete their analysis.
-        </p>
+        <div className="space-y-2">
+          <p className="text-gray-500 text-sm font-medium">
+            AI Agents Processing...
+          </p>
+          <p className="text-gray-400 text-xs">
+            Your personalized trainer match and workout plan will appear here after all agents complete their analysis.
+          </p>
+          
+          {/* Progress indicators */}
+          <div className="mt-4 space-y-2">
+            <div className="flex items-center justify-center space-x-2 text-xs">
+              <div className={`w-2 h-2 rounded-full ${matching?.status === 'complete' ? 'bg-green-500' : matching?.status === 'analyzing' ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
+              <span className="text-gray-500">Trainer Matching</span>
+            </div>
+            <div className="flex items-center justify-center space-x-2 text-xs">
+              <div className={`w-2 h-2 rounded-full ${planning?.status === 'complete' ? 'bg-green-500' : planning?.status === 'analyzing' ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
+              <span className="text-gray-500">Workout Planning</span>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
