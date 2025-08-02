@@ -99,17 +99,35 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
+      <header className="bg-white shadow-lg border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="flex items-center space-x-3">
-            <div className="bg-primary-500 p-2 rounded-lg">
-              <Dumbbell className="h-6 w-6 text-white" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="gradient-primary p-3 rounded-xl shadow-lg">
+                <Dumbbell className="h-8 w-8 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold heading-gradient">Networkout</h1>
+                <p className="text-sm text-gray-600 font-medium">AI-Powered Cross-Cultural Fitness Networking</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Networkout</h1>
-              <p className="text-sm text-gray-600">AI-Powered Cross-Cultural Fitness Networking</p>
+            
+            {/* Status indicators */}
+            <div className="hidden md:flex items-center space-x-6">
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 rounded-full ${agentResults.intake?.status === 'complete' ? 'bg-green-500' : agentResults.intake?.status === 'analyzing' ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                <span className="text-sm font-medium text-gray-600">Intake</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 rounded-full ${agentResults.matching?.status === 'complete' ? 'bg-green-500' : agentResults.matching?.status === 'analyzing' ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                <span className="text-sm font-medium text-gray-600">Matching</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className={`w-3 h-3 rounded-full ${agentResults.planning?.status === 'complete' ? 'bg-green-500' : agentResults.planning?.status === 'analyzing' ? 'bg-amber-500 animate-pulse' : 'bg-gray-300'}`}></div>
+                <span className="text-sm font-medium text-gray-600">Planning</span>
+              </div>
             </div>
           </div>
         </div>
@@ -121,10 +139,12 @@ function App() {
           
           {/* Left Panel - User Input */}
           <div className="lg:col-span-1">
-            <div className="agent-card sticky top-8">
-              <div className="flex items-center space-x-2 mb-4">
-                <Users className="h-5 w-5 text-primary-500" />
-                <h2 className="text-lg font-semibold">Your Fitness Goals</h2>
+            <div className="agent-card sticky top-8 border-2 border-primary-200">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="gradient-primary p-2 rounded-lg">
+                  <Users className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Your Fitness Goals</h2>
               </div>
               <UserInput onSubmit={handleUserSubmit} />
             </div>
@@ -133,9 +153,11 @@ function App() {
           {/* Center Panel - Agent Processing */}
           <div className="lg:col-span-1">
             <div className="space-y-6">
-              <div className="flex items-center space-x-2 mb-6">
-                <Brain className="h-5 w-5 text-primary-500" />
-                <h2 className="text-lg font-semibold">AI Agent Processing</h2>
+              <div className="flex items-center space-x-3 mb-8">
+                <div className="gradient-primary p-2 rounded-lg">
+                  <Brain className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">AI Agent Processing</h2>
               </div>
               
               <AgentDisplay 
@@ -163,8 +185,13 @@ function App() {
 
           {/* Right Panel - Results */}
           <div className="lg:col-span-1">
-            <div className="agent-card sticky top-8">
-              <h2 className="text-lg font-semibold mb-4">Your Personalized Match</h2>
+            <div className="agent-card sticky top-8 border-2 border-success-200">
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="gradient-success p-2 rounded-lg">
+                  <Dumbbell className="h-6 w-6 text-white" />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Your Personalized Match</h2>
+              </div>
               <Results results={agentResults} />
             </div>
           </div>
@@ -172,10 +199,17 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t mt-16">
-        <div className="max-w-7xl mx-auto px-4 py-6 text-center text-sm text-gray-500">
-          <p>🤖 Hackathon Demo: Agentic Workflows Track</p>
-          <p className="mt-1">Built with autonomous agents that think, act, and execute</p>
+      <footer className="bg-white border-t border-gray-200 mt-16">
+        <div className="max-w-7xl mx-auto px-4 py-8 text-center">
+          <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="gradient-primary p-2 rounded-lg">
+              <Brain className="h-5 w-5 text-white" />
+            </div>
+            <p className="text-lg font-semibold text-gray-700">Hackathon Demo: Agentic Workflows Track</p>
+          </div>
+          <p className="text-sm text-gray-500 max-w-2xl mx-auto leading-relaxed">
+            Built with autonomous agents that think, act, and execute. Demonstrating AI-powered cross-cultural fitness networking with intelligent cultural adaptations.
+          </p>
         </div>
       </footer>
     </div>

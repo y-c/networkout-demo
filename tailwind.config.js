@@ -20,6 +20,9 @@ module.exports = {
         },
         warning: {
           50: '#fffbeb',
+          100: '#fef3c7',
+          200: '#fcd34d',
+          300: '#f59e0b',
           500: '#f59e0b',
           600: '#d97706',
         }
