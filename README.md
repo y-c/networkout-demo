@@ -1,7 +1,16 @@
+<div align="center">
+  <img src="docs/logo.png" alt="Networkout Logo" width="200"/>
+</div>
+
 # 🏋️ Networkout: AI-Powered Cross-Cultural Fitness Networking
 
 ## 🚀 Live Demo
-**[Try Networkout Live →](https://networkout-demo.vercel.app/)**
+**[Try NetworkOut Live →](https://your-vercel-url.vercel.app)**
+
+## 📸 Screenshots
+![Demo](screenshots/demo.png)
+
+![Deployment](screenshots/deployment.png)
 
 ## 🎯 The Perfect Market Mismatch
 
